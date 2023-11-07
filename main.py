@@ -52,6 +52,8 @@ try:
     content = result['msg']
 finally:
     # 无论签到成功还是失败，都发送推送
+    print(f'推送内容: {content}')
     if corpid and corpsecret and agentid:
         send_wechat_msg(content, corpid, corpsecret, agentid)
         print('推送成功')
+
