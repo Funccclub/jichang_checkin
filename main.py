@@ -54,8 +54,8 @@ try:
     if corpid and corpsecret and agentid:
         send_wechat_msg(content, corpid, corpsecret, agentid)
         print('推送成功')
-except:
-    content = '签到失败'
+except Exception as e:
+    content = '签到失败: ' + str(e)
     print(content)
     if corpid and corpsecret and agentid:
         send_wechat_msg(content, corpid, corpsecret, agentid)
