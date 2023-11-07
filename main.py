@@ -50,12 +50,8 @@ try:
     result = json.loads(session.post(url=check_url,headers=header).text)
     print(result['msg'])
     content = result['msg']
-    # 进行推送
+finally:
+    # 无论签到成功还是失败，都发送推送
     if corpid and corpsecret and agentid:
         send_wechat_msg(content, corpid, corpsecret, agentid)
         print('推送成功')
-except:
-    content = '签到失败'
-    print(content)
-    if corpid and corpsecret and agentid:
-        send_wechat_msg(content, corpid, corpsecret, agentid)
