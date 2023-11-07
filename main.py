@@ -42,8 +42,6 @@ data = {
         'passwd': passwd
 }
 
-content = '未知错误'  # 预先定义 content 变量
-
 try:
     print('进行登录...')
     response = json.loads(session.post(url=login_url,headers=header,data=data).text)
@@ -52,11 +50,12 @@ try:
     result = json.loads(session.post(url=check_url,headers=header).text)
     print(result['msg'])
     content = result['msg']
-except Exception as e:
-    content = str(e)
-finally:
-    # 无论签到成功还是失败，都发送推送
-    print(f'推送内容: {content}')
+    # 进行推送
     if corpid and corpsecret and agentid:
         send_wechat_msg(content, corpid, corpsecret, agentid)
         print('推送成功')
+except:
+    content = '签到失败'
+    print(content)
+    if corpid and corpsecret and agentid:
+        send_wechat_msg(content, corpid, corpsecret, agentid)
