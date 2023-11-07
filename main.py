@@ -1,9 +1,6 @@
 import requests, json, os
 
-def send_wechat_msg(content):
-    corpid = os.environ.get('CORPID')  # CorpID是企业号的标识
-    corpsecret = os.environ.get('CORPSECRET')  # CorpSecret可在企业微信管理端-我的企业-企业信息查看
-    agentid = os.environ.get('AGENTID')  # AgentId可在企业微信管理端-应用与小程序-应用查看
+def send_wechat_msg(content, corpid, corpsecret, agentid):
     url = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={}&corpsecret={}'.format(corpid, corpsecret)
     r = requests.get(url)
     access_token = r.json()['access_token']
@@ -28,6 +25,10 @@ url = os.environ.get('URL')
 email = os.environ.get('EMAIL')
 # 配置用户名对应的密码 和上面的email对应上
 passwd = os.environ.get('PASSWD')
+# 企业微信的配置
+corpid = os.environ.get('CORPID')  # CorpID是企业号的标识
+corpsecret = os.environ.get('CORPSECRET')  # CorpSecret可在企业微信管理端-我的企业-企业信息查看
+agentid = os.environ.get('AGENTID')  # AgentId可在企业微信管理端-应用与小程序-应用查看
 
 login_url = '{}/auth/login'.format(url)
 check_url = '{}/user/checkin'.format(url)
@@ -51,10 +52,10 @@ try:
     content = result['msg']
     # 进行推送
     if corpid and corpsecret and agentid:
-        send_wechat_msg(content)
+        send_wechat_msg(content, corpid, corpsecret, agentid)
         print('推送成功')
 except:
     content = '签到失败'
     print(content)
     if corpid and corpsecret and agentid:
-        send_wechat_msg(content)
+        send_wechat_msg(content, corpid, corpsecret, agentid)
