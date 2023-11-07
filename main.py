@@ -1,4 +1,25 @@
-import requests, json, re, os
+import requests, json, os
+
+def send_wechat_msg(content):
+    corpid = os.environ.get('CORPID')  # CorpID是企业号的标识
+    corpsecret = os.environ.get('CORPSECRET')  # CorpSecret可在企业微信管理端-我的企业-企业信息查看
+    agentid = os.environ.get('AGENTID')  # AgentId可在企业微信管理端-应用与小程序-应用查看
+    url = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={}&corpsecret={}'.format(corpid, corpsecret)
+    r = requests.get(url)
+    access_token = r.json()['access_token']
+    url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={}'.format(access_token)
+    headers = {'content-type': 'application/json'}
+    data = {
+        "touser": "@all",  # 发送给所有人
+        "msgtype": "text",
+        "agentid": agentid,
+        "text": {
+            "content": content
+        },
+        "safe": 0
+    }
+    r = requests.post(url, headers=headers, data=json.dumps(data))
+    return r.json()
 
 session = requests.session()
 # 机场的地址
@@ -7,12 +28,9 @@ url = os.environ.get('URL')
 email = os.environ.get('EMAIL')
 # 配置用户名对应的密码 和上面的email对应上
 passwd = os.environ.get('PASSWD')
-# server酱
-SCKEY = os.environ.get('SCKEY')
 
 login_url = '{}/auth/login'.format(url)
 check_url = '{}/user/checkin'.format(url)
-
 
 header = {
         'origin': url,
@@ -22,6 +40,7 @@ data = {
         'email': email,
         'passwd': passwd
 }
+
 try:
     print('进行登录...')
     response = json.loads(session.post(url=login_url,headers=header,data=data).text)
@@ -31,13 +50,11 @@ try:
     print(result['msg'])
     content = result['msg']
     # 进行推送
-    if SCKEY != '':
-        push_url = 'https://sctapi.ftqq.com/{}.send?title=机场签到&desp={}'.format(SCKEY, content)
-        requests.post(url=push_url)
+    if corpid and corpsecret and agentid:
+        send_wechat_msg(content)
         print('推送成功')
 except:
     content = '签到失败'
     print(content)
-    if SCKEY != '':
-        push_url = 'https://sctapi.ftqq.com/{}.send?title=机场签到&desp={}'.format(SCKEY, content)
-        requests.post(url=push_url)
+    if corpid and corpsecret and agentid:
+        send_wechat_msg(content)
