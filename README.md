@@ -5,7 +5,7 @@
 >每天进行签到，获取额外的流量奖励
 
 ## 推送方式
-  🚀🚀该脚本采用的是<a href = 'https://sct.ftqq.com/'>Server酱</a>的推送方式，如果不需要推送，就下面的SCKEY参数的值设置为<b>空</b>就行
+  🚀🚀该脚本采用的是PUSHPLUS的推送方式，如果不需要推送，就下面的SCKEY参数的值设置为<b>空</b>就行
 
 # 部署过程
  
@@ -17,7 +17,7 @@
 | URL  | 是  | 机场地址  |
 | EMAIL  | 是  | 账号邮箱  |
 | PASSWD | 是  | 账号密码  |
-| SCKEY  | 否  | Sever酱秘钥  |
+| TOKEN  | 否  | PUSHPLUS秘钥  |
 <br/>
 <b>其中URL的值必须是机场网站的地址，例如：https://example.com</b>,尾部不要加''' / '''号
 
