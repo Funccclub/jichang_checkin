@@ -1,4 +1,5 @@
 import requests, json, os
+
 def send_pushplus_msg(content, token):
     url = 'http://www.pushplus.plus/send'
     data = {
@@ -9,6 +10,17 @@ def send_pushplus_msg(content, token):
     }
     r = requests.post(url, data)
     return r.json()
+
+def test_network_connectivity():
+    url = "http://www.pushplus.plus/send"
+    try:
+        response = requests.get(url)
+        print(f"Network test result: {response.status_code}")
+    except Exception as e:
+        print(f"Network test failed: {e}")
+
+# 先测试网络连通性
+test_network_connectivity()
 
 session = requests.session()
 # 机场的地址
