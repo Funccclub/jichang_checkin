@@ -1,22 +1,13 @@
 import requests, json, os
-# your code here
-
-def send_wechat_msg(content, corpid, corpsecret, agentid):
-    url = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={}&corpsecret={}'.format(corpid, corpsecret)
-    r = requests.get(url)
-    access_token = r.json()['access_token']
-    url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={}'.format(access_token)
-    headers = {'content-type': 'application/json'}
+def send_pushplus_msg(content, token):
+    url = 'http://www.pushplus.plus/send'
     data = {
-        "touser": "@all",  # 发送给所有人
-        "msgtype": "text",
-        "agentid": agentid,
-        "text": {
-            "content": content
-        },
-        "safe": 0
+        "token": token,
+        "title": "签到通知",
+        "content": content,
+        "template": "html"
     }
-    r = requests.post(url, headers=headers, data=json.dumps(data))
+    r = requests.post(url, data)
     return r.json()
 
 session = requests.session()
@@ -26,10 +17,8 @@ url = os.environ.get('URL')
 email = os.environ.get('EMAIL')
 # 配置用户名对应的密码 和上面的email对应上
 passwd = os.environ.get('PASSWD')
-# 企业微信的配置
-corpid = os.environ.get('CORPID')  # CorpID是企业号的标识
-corpsecret = os.environ.get('CORPSECRET')  # CorpSecret可在企业微信管理端-我的企业-企业信息查看
-agentid = os.environ.get('AGENTID')  # AgentId可在企业微信管理端-应用与小程序-应用查看
+# PushPlus的配置
+token = os.environ.get('TOKEN')  # Token在PushPlus官网获取
 
 login_url = '{}/auth/login'.format(url)
 check_url = '{}/user/checkin'.format(url)
@@ -52,17 +41,17 @@ try:
     print(result['msg'])
     content = result['msg']
     # 进行推送
-    if corpid and corpsecret and agentid:
-        response = send_wechat_msg(content, corpid, corpsecret, agentid)
-        if response['errcode'] != 0:
-            print('发送消息失败: {}'.format(response['errmsg']))
+    if token:
+        response = send_pushplus_msg(content, token)
+        if response['code'] != 200:
+            print('发送消息失败: {}'.format(response['msg']))
         else:
             print('推送成功')
 except Exception as e:
     print(e)
     content = '签到失败'
     print(content)
-    if corpid and corpsecret and agentid:
-        response = send_wechat_msg(content, corpid, corpsecret, agentid)
-        if response['errcode'] != 0:
-            print('发送消息失败: {}'.format(response['errmsg']))
+    if token:
+        response = send_pushplus_msg(content, token)
+        if response['code'] != 200:
+            print('发送消息失败: {}'.format(response['msg']))
