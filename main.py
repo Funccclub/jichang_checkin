@@ -1,7 +1,6 @@
 import os
 import json
 import requests
-os.environ['URL'] = "https://1.cutecloud.net"
 
 
 def send_pushplus_msg(content, token):
