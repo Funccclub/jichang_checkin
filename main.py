@@ -57,3 +57,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+print("URL:", os.environ.get('URL'))
+print("EMAIL:", os.environ.get('EMAIL'))
+print("PASSWD:", os.environ.get('PASSWD'))
+print("TOKEN:", os.environ.get('TOKEN'))
