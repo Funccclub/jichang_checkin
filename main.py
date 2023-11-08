@@ -7,7 +7,7 @@ def send_pushplus_msg(content, token):
     url = 'http://www.pushplus.plus/send'
     data = {
         "token": token,
-        "title": "签到结果",
+        "title": "流量签到结果",
         "content": content
     }
     body = json.dumps(data).encode(encoding='utf-8')
