@@ -1,10 +1,10 @@
 import os
 import json
 import requests
-export URL="https://1.cutecloud.net"
-export EMAIL="210648986@qq.com"
-export PASSWD="plmnko..."
-export TOKEN="b32da7f1b264429fb0c94e2c87329c32"
+os.environ['URL'] = "https://1.cutecloud.net"
+os.environ['EMAIL'] = "210648986@qq.com"
+os.environ['PASSWD'] = "plmnko..."
+os.environ['TOKEN'] = "b32da7f1b264429fb0c94e2c87329c32"
 
 def send_pushplus_msg(content, token):
     url = 'http://www.pushplus.plus/send'
