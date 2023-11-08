@@ -1,4 +1,5 @@
 import requests, json, os
+# your code here
 
 def send_wechat_msg(content, corpid, corpsecret, agentid):
     url = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={}&corpsecret={}'.format(corpid, corpsecret)
@@ -52,10 +53,16 @@ try:
     content = result['msg']
     # 进行推送
     if corpid and corpsecret and agentid:
-        send_wechat_msg(content, corpid, corpsecret, agentid)
-        print('推送成功')
-except:
+        response = send_wechat_msg(content, corpid, corpsecret, agentid)
+        if response['errcode'] != 0:
+            print('发送消息失败: {}'.format(response['errmsg']))
+        else:
+            print('推送成功')
+except Exception as e:
+    print(e)
     content = '签到失败'
     print(content)
     if corpid and corpsecret and agentid:
-        send_wechat_msg(content, corpid, corpsecret, agentid)
+        response = send_wechat_msg(content, corpid, corpsecret, agentid)
+        if response['errcode'] != 0:
+            print('发送消息失败: {}'.format(response['errmsg']))
