@@ -38,6 +38,9 @@ jobs:
           URL: ${{ secrets.URL }}
           EMAIL: ${{ secrets.EMAIL }}
           PASSWD: ${{ secrets.PASSWD }}
-          TOKEN: ${{ secrets.TOKEN }}  # 添加了这一行
+          TOKEN: ${{ secrets.TOKEN }}
+          CORPSECRET: ${{ secrets.CORPSECRET }}
+          CORPID: ${{ secrets.CORPID }}
+          AGENTID: ${{ secrets.AGENTID }}# 添加了这一行
         run: |
           python3 ./main.py
