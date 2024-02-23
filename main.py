@@ -8,6 +8,7 @@ def send_wechat_msg(content, corpid, corpsecret, agentid):
     response = requests.get(url).json()
     access_token = response.get('access_token')
 
+    
     # 发送消息
     url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={}'.format(access_token)
     data = {
